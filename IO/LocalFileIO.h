@@ -4,7 +4,7 @@
 
 #include <fstream>
 
-#include "IOBase.h"
+#include "FileIOBase.h"
 
 
 namespace ns_io
@@ -16,14 +16,14 @@ public:
     LocalFileIO(const char* filepath);
     virtual ~LocalFileIO();
 
-    virtual bool open(IOTypes type=IOTypes::READ) throw(ns_exception::IOException);
+    virtual bool open(FileIOTypes type=FileIOTypes::READ) throw(ns_exception::IOException);
     virtual size_t write(const DataRowBase&, size_t) throw(ns_exception::IOException);
     virtual bool read(DataRowBase*, size_t) throw(ns_exception::IOException);
     virtual void close() throw(ns_exception::IOException);
 
 private:
     const char* _filepath;
-    fstream _fs;
+    std::fstream _fs;
     bool _close;
 };
 

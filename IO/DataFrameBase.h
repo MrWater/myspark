@@ -19,10 +19,6 @@ public:
     virtual DataRowBase& at(size_t idx) throw(ns_exception::IOException) = 0;
 
 protected:
-    DataRowBase() {}
-    ~DataRowBase() {}
-
-protected:
     std::vector<DataRowBase*> _data;   
 };
 

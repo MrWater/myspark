@@ -1,10 +1,17 @@
+#include <iostream>
+
 #include "LocalFileIO.h"
+
+using namespace std;
+using namespace ns_io;
+using namespace ns_exception;
 
 
 LocalFileIO::LocalFileIO(const char* filepath)
     : _filepath(filepath),
-    _close(true),
-    IOBase()
+    _offset(0),
+    _ioType(FileIOTypes::READ),
+    _close(true)
 {
 }
 
@@ -15,19 +22,19 @@ LocalFileIO::~LocalFileIO()
 }
 
 bool
-LocalFileIO::open(IOTypes type)
+LocalFileIO::open(FileIOTypes type)
 {
-    _iotype = type;
+    _ioType = type;
 
     switch(type)
     {
-    case IOTypes::READ:
+    case FileIOTypes::READ:
         _fs.open(_filepath, ios::in | ios::binary);
         break;
-    case IOTypes::WRITE:
+    case FileIOTypes::WRITE:
         _fs.open(_filepath, ios::out | ios::binary);
         break;
-    case IOTypes::READ | IOTypes::WRITE:
+    case FileIOTypes::READ | FileIOTypes::WRITE:
         _fs.open(_filepath, ios::in | ios::out | ios::binary);
         break;
     // TODO: other types
@@ -41,16 +48,13 @@ LocalFileIO::open(IOTypes type)
 size_t
 LocalFileIO::write(const DataRowBase& row, size_t size)
 {
-    if ((_iotype & IOTypes::WRITE) == 0)
+    if ((_ioType & FileIOTypes::WRITE) == 0)
         throw IOException("cannot be written with read mode");
 
     int cnt = 0;
 
-    for (int i = 0; i < frame.length(); ++i)
-    {
-        _fs.write(static_cast<char*>(&row), size);
-        ++cnt;
-    }
+    _fs.write(reinterpret_cast<char*>(const_cast<DataRowBase*>(&row)), size);
+    ++cnt;
 
     _offset += cnt;
 
@@ -60,10 +64,10 @@ LocalFileIO::write(const DataRowBase& row, size_t size)
 bool
 LocalFileIO::read(DataRowBase* row, size_t size)
 {
-    if ((_iotype & IOTypes::READ) == 0)
+    if ((_ioType & FileIOTypes::READ) == 0)
         throw IOException("cannot be written with write mode");
 
-    _fs.read(static_cast<char*>(row), size);
+    _fs.read(reinterpret_cast<char*>(row), size);
 
     // TODO: return 
     return true;

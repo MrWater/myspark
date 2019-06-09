@@ -22,12 +22,9 @@ enum class FileIOTypes : unsigned char
     BINARY = 0x20
 };
 
-class FIleIOBase : public IIO
+class FileIOBase : public IIO
 {
 public:
-    FileIOBase() : _offset(0) {}
-    ~FileIOBase() {}
-
     virtual bool open(FileIOTypes type=FileIOTypes::READ) throw(ns_exception::IOException) = 0;
     virtual size_t write(const DataRowBase&, size_t) throw(ns_exception::IOException) = 0;
     virtual bool read(DataRowBase*, size_t) throw(ns_exception::IOException) = 0;
@@ -36,7 +33,7 @@ public:
 
 protected:
     size_t _offset;
-    IOTypes _ioType;
+    FileIOTypes _ioType;
 };
 
 }
