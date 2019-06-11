@@ -1,21 +1,19 @@
-include ../config.mk
+include ../../config.mk 
 
-EXE=test_localfileio test_data
-OBJ=LocalFileIO.o
+EXE=test_scheduler
+OBJ=
 INC=../
 LIB=
+CFLAGS+=-luuid
 
 
 .PHONY: clean install all
 
-all: $(EXE) $(ALLTEST)
+all: $(EXE)
 	@$(call mvbin, $(EXE))
 	@echo "finish"
 
-test_localfileio: test_localfileio.cpp $(OBJ)
-	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
-
-test_data: test_data.cpp $(OBJ)
+test_scheduler: test_scheduler.cpp $(OBJ)
 	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
 
 %.o: %.cpp

@@ -1,10 +1,9 @@
-include ../config.mk 
+include ../../config.mk 
 
 EXE=test_task
 OBJ=
 INC=../
 LIB=-luuid
-
 
 
 .PHONY: clean install all

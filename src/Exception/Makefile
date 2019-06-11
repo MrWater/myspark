@@ -1,6 +1,6 @@
-include ../config.mk 
+include ../../config.mk 
 
-EXE=test_uuid
+EXE=test_exception
 OBJ=
 INC=../
 LIB=
@@ -13,7 +13,7 @@ all: $(EXE)
 	@$(call mvbin, $(EXE))
 	@echo "finish"
 
-test_uuid: test_uuid.cpp $(OBJ)
+test_exception: test_exception.cpp $(OBJ)
 	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
 
 %.o: %.cpp
