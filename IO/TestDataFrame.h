@@ -12,7 +12,7 @@ class TestDataFrame : public DataFrameBase
 {
 public:
     TestDataFrame() {}
-    ~TestDataFrame() {}
+    virtual ~TestDataFrame() {}
 
     virtual size_t length() const { return _data.size(); }
     virtual void add(DataRowBase* row) { _data.push_back(row); } 

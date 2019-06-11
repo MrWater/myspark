@@ -9,7 +9,7 @@ class DataRowBase
 {
 public:
     DataRowBase() {}
-    ~DataRowBase() {}
+    virtual ~DataRowBase() {}
 };
 
 }

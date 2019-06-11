@@ -7,11 +7,11 @@ namespace ns_task
 
 enum class TaskStatus : short
 {
-    NONE,
-    FAILED,
-    SUCCESSFUL,
+    WAITING,
+    READY,
     RUNNING,
-    FINISHED
+    FAILED,
+    SUCCESSFUL
 };
 
 }

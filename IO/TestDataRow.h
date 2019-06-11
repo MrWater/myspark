@@ -13,7 +13,7 @@ class TestDataRow : public DataRowBase
 public:
     TestDataRow() : key(0), value(0) {}
     TestDataRow(int k, int v) : key(k), value(v) {}
-    ~TestDataRow() {}
+    virtual ~TestDataRow() {}
 
 public:
     int key;

@@ -3,6 +3,7 @@
 
 
 #include <iostream>
+#include <unistd.h>
 
 #include "TaskBase.h"
 
@@ -16,7 +17,6 @@ public:
     TestTask() : TaskBase() {}
     virtual ~TestTask() {}
 
-public:
     virtual TaskStatus run() 
     {
         auto iter = _relyTasks.begin();
@@ -24,7 +24,7 @@ public:
 
         for (; iter != _relyTasks.end(); ++iter)
         {
-            if ((*iter)->status() == TaskStatus::NONE)
+            if ((*iter)->status() == TaskStatus::WAITING)
             {
                 flag = false;
                 break;
@@ -36,6 +36,8 @@ public:
         else
             std::cout << "TestTask cannot run" << std::endl;
 
+        sleep(1);
+        _status = TaskStatus::SUCCESSFUL;
     } 
 };
 
