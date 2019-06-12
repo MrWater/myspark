@@ -3,10 +3,12 @@
 
 
 #include <list>
+#include <functional>
 #include <stdint.h>
 
 #include "TaskStatus.h"
-#include "Common/UUID.h"
+#include "common/UUID.h"
+#include "TaskReplyBase.h"
 
 
 namespace ns_task
@@ -15,7 +17,12 @@ namespace ns_task
 class TaskBase
 {
 public:
-    TaskBase() : _status(TaskStatus::READY), id(UUID()) {}
+    TaskBase() 
+        : _status(TaskStatus::READY), 
+        _id(UUID()),
+        _reply(NULL)
+    {
+    }
     virtual ~TaskBase() {}
 
     TaskStatus status() { return _status; }
@@ -43,21 +50,31 @@ public:
 
     void updateStatus()
     {
+        // TODO:FAILED
+        if (_status == TaskStatus::RUNNING ||
+            _status == TaskStatus::SUCCESSFUL)
+            return;
+
         if (waitNum() == 0)
             _status = TaskStatus::READY;
         else
             _status = TaskStatus::WAITING;
     }
+
+    TaskReplyBase reply() const { return *_reply; }
+    const std::string id() const { return _id; }
     
 public:
     virtual TaskStatus run() = 0;
-
-public:
-    const std::string id;
+    virtual void notify() {}
 
 protected:
     TaskStatus _status;
     std::list<TaskBase*> _relyTasks;
+    TaskReplyBase* _reply;
+
+private:
+    const std::string _id;
 };
 
 }

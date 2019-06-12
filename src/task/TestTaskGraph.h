@@ -18,14 +18,7 @@ public:
     virtual void addTask(TaskBase* task) { _allTask.push_back(task); }
     virtual bool hasNext() const { return _iterOffset < _allTask.size(); }
     virtual size_t size() const { return _allTask.size(); }
-    
-    virtual TaskBase* next() 
-    {
-        TaskBase* ret = _allTask[_iterOffset];
-        ++_iterOffset;
-
-        return ret;
-    }
+    virtual TaskBase* next() { return _allTask[_iterOffset++]; } 
 
 private:
     std::vector<TaskBase*> _allTask;

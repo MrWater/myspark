@@ -16,7 +16,7 @@ int main()
     TestDataFrame frame;
     frame.add(dynamic_cast<DataRowBase*>(&row));
 
-    cout << frame.length() << endl;
+    cout << frame.size() << endl;
     TestDataRow& temp = static_cast<TestDataRow&>(frame.at(0));
     cout << temp.key << endl;
     temp.key = 2;

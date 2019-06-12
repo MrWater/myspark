@@ -7,7 +7,7 @@
 
 #include "IIO.h"
 #include "DataRowBase.h"
-#include "Exception/IOException.h"
+#include "exception/IOException.h"
 
 
 namespace ns_io

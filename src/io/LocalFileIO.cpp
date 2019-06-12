@@ -16,8 +16,7 @@ LocalFileIO::LocalFileIO(const char* filepath, size_t blockSize)
 
 LocalFileIO::~LocalFileIO()
 {
-    if (!_close)
-        _fs.close();
+    close();
 }
 
 bool
@@ -72,7 +71,8 @@ LocalFileIO::read(DataRowBase* row) throw(IOException)
 void
 LocalFileIO::close() throw(IOException)
 {
-    
+    if (_close)
+        _fs.close();    
 }
 
 void

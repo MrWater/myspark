@@ -5,24 +5,25 @@
 #include <vector>
 
 #include "DataRowBase.h"
-#include "Exception/IOException.h"
+#include "common/IteratorBase.h"
+#include "exception/IOException.h"
 
 
 namespace ns_io
 {
 
-class DataFrameBase
+class DataFrameBase : public IteratorBase<DataRowBase*>
 {
 public:
     DataFrameBase() {}
     virtual ~DataFrameBase() {}
 
-    virtual size_t length() const = 0;
     virtual void add(DataRowBase*) = 0;
     virtual DataRowBase& at(size_t idx) throw(ns_exception::IOException) = 0;
 
-protected:
-    std::vector<DataRowBase*> _data;   
+    virtual bool hasNext() const = 0;
+    virtual DataRowBase* next() = 0;
+    virtual size_t size() const = 0;
 };
 
 }

@@ -2,7 +2,7 @@
 #define __SCHEDULER_BASE_H__
 
 
-#include "Task/TaskGraphBase.h"
+#include "task/TaskGraphBase.h"
 
 
 namespace ns_scheduler
@@ -16,6 +16,7 @@ public:
 
     virtual void receive(ns_task::TaskGraphBase* graph) = 0;
     virtual void schedule() = 0;
+    virtual void watch() {}
 };
 
 }

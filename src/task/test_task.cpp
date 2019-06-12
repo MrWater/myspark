@@ -24,10 +24,10 @@ int main()
     graph.addTask(&task1);
     graph.addTask(&task2);
     graph.addTask(&task3);
-    graph.addTask(&task3);
 
-    cout << task1.id << endl;
-    cout << task2.id << endl;
+    cout << "task1：" << task1.id() << endl;
+    cout << "task2：" << task2.id() << endl;
+    cout << "task3：" << task3.id() << endl;
 
     cout << graph.hasNext() << endl;
     cout << graph.size() << endl;

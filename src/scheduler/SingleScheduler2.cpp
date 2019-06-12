@@ -1,21 +1,22 @@
-#ifndef __SINGLE_SCHEDULER_H__
-#define __SINGLE_SCHEDULER_H__
+#ifndef __SINGLE_SCHEDULER2_H__
+#define __SINGLE_SCHEDULER2_H__
 
 
+#include <thread>
 #include <unistd.h>
 
 #include "SchedulerBase.h"
-#include "Task/TaskGraphBase.h"
+#include "task/TaskGraphBase.h"
 
 
 namespace ns_scheduler
 {
 
-class SingleScheduler : public SchedulerBase
+class SingleScheduler2 : public SchedulerBase
 {
 public:
-    SingleScheduler() : SchedulerBase() {}
-    virtual ~SingleScheduler() {}
+    SingleScheduler2() : SchedulerBase() {}
+    virtual ~SingleScheduler2() {}
 
     virtual void receive(ns_task::TaskGraphBase* graph) { _graph = graph; }
 
@@ -27,6 +28,7 @@ public:
         while (1)
         {
             run_flag = false;
+            _graph->seek();
 
             while (_graph->hasNext())
             {
