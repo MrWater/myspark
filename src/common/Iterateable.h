@@ -5,15 +5,15 @@
 #include "Iterator.h"
 
 
-template<typename TEle>
+template<typename TEle, typename TIterator>
 class Iterateable
 {
 public:
     Iterateable() {}
     ~Iterateable() {}
 
-    virtual Iterator<TEle> begin() = 0;
-    virtual const Iterator<TEle> end() = 0;
+    virtual TIterator begin() = 0;
+    virtual const TIterator end() = 0;
 };
 
 #endif

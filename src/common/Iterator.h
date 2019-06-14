@@ -16,7 +16,6 @@ template<typename TEle>
 class Iterator //: public IteratorBase<TEle>
 {
 public:
-    Iterator() {}
     virtual ~Iterator() {}
 
     Iterator& operator++()
@@ -73,6 +72,8 @@ public:
     }
 
 protected:
+    Iterator() {}
+
     virtual void next() { ++_current; }
     virtual void prev() { --_current; }
 

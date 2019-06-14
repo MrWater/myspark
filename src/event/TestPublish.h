@@ -14,12 +14,15 @@ public:
     TestPublish() {}
     virtual ~TestPublish() {}
 
-    virtual notify() const
+    virtual void notify()
     {
+        ns_container::SafeList<SubscribeBase*>::iterator iter = _subscribers.begin();
+
+        for (; iter != _subscribers.end(); ++iter)
+            (*iter)->respond();
     }
 };
 
 };
-
 
 #endif

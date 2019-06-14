@@ -15,7 +15,8 @@ int main()
     list.add(4);
     list.add(5);
 
-    Iterator<int> iter = list.begin();
+    SafeList<int>::iterator iter = list.begin();
+
     for (; iter != list.end(); ++iter)
         cout << *iter << endl;
 

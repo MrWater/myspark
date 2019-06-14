@@ -4,9 +4,9 @@
 
 #include <list>
 
+#include "ListIterator.h"
 #include "thread/Lock.h"
 #include "thread/AutoLock.h"
-#include "common/Iterator.h"
 #include "common/Iterateable.h"
 
 
@@ -14,8 +14,14 @@ namespace ns_container
 {
 
 template<typename TEle>
-class SafeList : public Iterateable<TEle>
+class SafeListIterator;
+
+template<typename TEle>
+class SafeList : public Iterateable<TEle, SafeListIterator<TEle>>
 {
+public:
+    typedef SafeListIterator<TEle> iterator;
+
 public:
     SafeList() {}
     ~SafeList() {}
@@ -77,43 +83,37 @@ public:
         return _list.size();
     }
 
-    virtual Iterator<TEle> begin()
+    virtual SafeListIterator<TEle> begin()
     {  
-        SafeListIterator iter;
+        SafeListIterator<TEle> iter;
         iter._iter = _list.begin();
         iter._current = &(*iter._iter);
-        return static_cast<Iterator<TEle>>(iter);
+        return iter;
     }
 
-    virtual const Iterator<TEle> end()
+    virtual const SafeListIterator<TEle> end()
     {
-        SafeListIterator iter;
+        SafeListIterator<TEle> iter;
         iter._iter = _list.end();
         iter._current = &(*iter._iter);
-        return static_cast<Iterator<TEle>>(iter);
+        return iter;
     }
     
 private:
     std::list<TEle> _list;
     ns_thread::RWLock _rwlock;
-
-private:
-    class SafeListIterator : public Iterator<TEle>
-    {
-    protected:
-        SafeListIterator() {}
-        ~SafeListIterator() {}
-
-        virtual void next() { ++_iter; _current = &(*_iter); }
-        virtual void prev() { --_iter; _current = &(*_iter); }
-
-    private:
-        friend class SafeList;
-        typename std::list<TEle>::iterator _iter;
-    };
-
 };
 
+template<typename TEle>
+class SafeListIterator : public ListIterator<TEle>
+{
+public:
+    ~SafeListIterator() {}
+
+private:
+    SafeListIterator() {}
+    friend class SafeList<TEle>;
+};
 
 }
 
