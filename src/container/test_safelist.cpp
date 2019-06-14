@@ -10,15 +10,14 @@ int main()
 {
     SafeList<int> list;
     list.add(1);
+    list.add(2);
     list.add(3);
+    list.add(4);
+    list.add(5);
 
-    int a;
-    cout << list.find(1, &a) << endl;
-    cout << a << endl;
-
-    cout << list.size() << endl;
-    list.erase(1);
-    cout << list.size() << endl;
+    Iterator<int> iter = list.begin();
+    for (; iter != list.end(); ++iter)
+        cout << *iter << endl;
 
     return 0;
 }

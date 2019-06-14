@@ -1,6 +1,6 @@
 include ../../config.mk 
 
-EXE=test_uuid
+EXE=test_uuid test_sys test_iter
 OBJ=
 INC=../
 LIB=
@@ -14,6 +14,12 @@ all: $(EXE)
 	@echo "finish"
 
 test_uuid: test_uuid.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+test_sys: test_sys.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+test_iter: test_iter.cpp $(OBJ)
 	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
 
 %.o: %.cpp

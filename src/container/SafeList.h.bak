@@ -17,6 +17,70 @@ template<typename TEle>
 class SafeList : public Iterateable<TEle>
 {
 public:
+    class SafeListIterator : public Iterator<TEle>
+    {
+    public:
+        SafeListIterator() {}
+        ~SafeListIterator() {}
+
+        SafeListIterator& operator++()
+        {
+            ++_iter;
+            return *this;
+        }
+
+        SafeListIterator operator++(int)
+        {
+            SafeListIterator temp = *this;
+            ++this->_iter;
+            return temp;
+        }
+
+        SafeListIterator& operator--()
+        {
+            --_iter;
+            return *this;
+        }
+
+        SafeListIterator operator--(int)
+        {
+            SafeListIterator temp = *this;
+            --this->_iter;
+            return temp;
+        }
+
+        TEle& operator*() const
+        {
+            return *_iter;
+        }
+
+        TEle* operator->() const
+        {
+            return &(*_iter);
+        }
+
+        bool operator==(const SafeListIterator& iter) const
+        {
+            return this->_iter == iter->_iter;
+        }
+
+        bool operator!=(const SafeListIterator& iter) const
+        {
+            return this->_iter != iter->_iter;
+        }
+
+        bool operator<(const SafeListIterator& iter) const
+        {
+            return this->_iter < iter->_iter;
+        }
+
+    private:
+        friend class SafeList;
+        typename std::list<TEle>::iterator _iter;
+    };
+    typedef SafeListIterator iterator;
+
+public:
     SafeList() {}
     ~SafeList() {}
 
@@ -77,43 +141,24 @@ public:
         return _list.size();
     }
 
-    virtual Iterator<TEle> begin()
+    virtual SafeListIterator begin()
     {  
         SafeListIterator iter;
         iter._iter = _list.begin();
-        iter._current = &(*iter._iter);
-        return static_cast<Iterator<TEle>>(iter);
+        return iter;
     }
 
-    virtual const Iterator<TEle> end()
+    virtual const SafeListIterator end()
     {
         SafeListIterator iter;
         iter._iter = _list.end();
-        iter._current = &(*iter._iter);
-        return static_cast<Iterator<TEle>>(iter);
+        return iter;
     }
     
 private:
     std::list<TEle> _list;
     ns_thread::RWLock _rwlock;
-
-private:
-    class SafeListIterator : public Iterator<TEle>
-    {
-    protected:
-        SafeListIterator() {}
-        ~SafeListIterator() {}
-
-        virtual void next() { ++_iter; _current = &(*_iter); }
-        virtual void prev() { --_iter; _current = &(*_iter); }
-
-    private:
-        friend class SafeList;
-        typename std::list<TEle>::iterator _iter;
-    };
-
 };
-
 
 }
 

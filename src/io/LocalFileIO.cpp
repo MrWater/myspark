@@ -49,6 +49,7 @@ LocalFileIO::write(DataRowBase* row) throw(IOException)
     if (((uint16_t)_ioType & (uint16_t)FileIOTypes::WRITE) == 0)
         throw IOException("cannot be written with read mode");
 
+    // TODO: littleEndian?
     _fs.write(reinterpret_cast<char*>(row), _blockSize);
     seek(++_offset);
 

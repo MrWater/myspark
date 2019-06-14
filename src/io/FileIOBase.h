@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "Env.h"
 #include "IIO.h"
 #include "DataRowBase.h"
 #include "exception/IOException.h"

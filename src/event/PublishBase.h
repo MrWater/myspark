@@ -22,14 +22,9 @@ public:
     void seek(size_t offset=0) { _iterOffset = offset; }
 
     void attach(SubscribeBase* subscriber) { _subscribers.add(subscriber); }
-    void detach(SubscribeBase* subscriber) 
-    {
-        std::list<SubscribeBase*>::iterator iter = _subscribers.find(subscriber);
-        if (iter != _subscribers.end())
-            _subscribers.
-    }
+    void detach(SubscribeBase* subscriber) { _subscribers.erase(subscriber); }
 
-    virtual notify() const = 0;
+    virtual notify() ;
 
 private:
     ns_container::SafeList<SubscribeBase*> _subscribers;
