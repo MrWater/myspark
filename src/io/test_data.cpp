@@ -15,6 +15,9 @@ int main()
 
     TestDataFrame frame;
     frame.add(dynamic_cast<DataRowBase*>(&row));
+    frame.add(dynamic_cast<DataRowBase*>(&row));
+    frame.add(dynamic_cast<DataRowBase*>(&row));
+    frame.add(dynamic_cast<DataRowBase*>(&row));
 
     cout << frame.size() << endl;
     TestDataRow& temp = static_cast<TestDataRow&>(frame.at(0));
@@ -29,6 +32,12 @@ int main()
     catch(exception& e)
     {
         cout << e.what() << endl;
+    }
+
+    TestDataFrame::iterator iter = frame.begin();
+    for(; iter != frame.end(); ++iter)
+    {
+        cout << (dynamic_cast<TestDataRow*>(*iter))->key << endl;
     }
 
 

@@ -1,35 +1,35 @@
-#ifndef __SAFE_LIST_H__
-#define __SAFE_LIST_H__
+#ifndef __SAFE_VECTOR_H__
+#define __SAFE_VECTOR_H__
 
 
-#include <list>
+#include <vector>
 
 #include "thread/Lock.h"
 #include "thread/AutoLock.h"
+#include "common/Iterator.h"
 #include "common/Iterateable.h"
-#include "common/ListIterator.h"
 
 
 namespace ns_container
 {
 
 template<typename TEle>
-class SafeListIterator;
+class SafeVectorIterator;
 
 template<typename TEle>
-class SafeList : public Iterateable<TEle, SafeListIterator<TEle>>
+class SafeVector : public Iterateable<TEle, SafeVectorIterator<TEle>>
 {
 public:
-    SafeList() {}
-    ~SafeList() {}
+    SafeVector() {}
+    ~SafeVector() {}
 
     void add(TEle ele)
     {
         ns_thread::AutoLock(&_rwlock, ns_thread::RWLock::WRITE);
-        _list.push_back(ele);
+        _vector.push_back(ele);
     }
 
-    void extend(SafeList<TEle> lst)
+    void extend(SafeVector<TEle> lst)
     {
 
     }
@@ -37,13 +37,13 @@ public:
     void erase(const TEle& ele)
     {
         ns_thread::AutoLock(&_rwlock, ns_thread::RWLock::WRITE);
-        typename std::list<TEle>::iterator iter = _list.begin();
+        typename std::vector<TEle>::iterator iter = _vector.begin();
 
-        for (; iter != _list.end(); ++iter)
+        for (; iter != _vector.end(); ++iter)
         {
             if (*iter == ele)
             {
-                _list.erase(iter);
+                _vector.erase(iter);
                 return;
             }
         }
@@ -54,9 +54,9 @@ public:
         // if (ret == NULL) 
 
         ns_thread::AutoLock(&_rwlock, ns_thread::RWLock::READ);
-        typename std::list<TEle>::iterator iter = _list.begin();
+        typename std::vector<TEle>::iterator iter = _vector.begin();
         
-        for (; iter != _list.end(); ++iter)
+        for (; iter != _vector.end(); ++iter)
         {
             if (*iter == ele)
             {
@@ -71,45 +71,43 @@ public:
     bool empty()
     {
         ns_thread::AutoLock(&_rwlock, ns_thread::RWLock::READ);
-        return _list.empty();
+        return _vector.empty();
     }
 
     size_t size()
     {
         ns_thread::AutoLock(&_rwlock, ns_thread::RWLock::READ);
-        return _list.size();
+        return _vector.size();
     }
 
-    virtual SafeListIterator<TEle> begin()
-    {  
-        SafeListIterator<TEle> iter;
-        iter._iter = _list.begin();
-        iter._current = &(*iter._iter);
+    virtual SafeVectorIterator<TEle> begin()
+    {
+        SafeVectorIterator<TEle> iter;
+        iter._current = &(*_vector.begin());
         return iter;
     }
 
-    virtual SafeListIterator<TEle> end()
+    virtual SafeVectorIterator<TEle> end()
     {
-        SafeListIterator<TEle> iter;
-        iter._iter = _list.end();
-        iter._current = &(*iter._iter);
+        SafeVectorIterator<TEle> iter;
+        iter._current = &(*_vector.end());
         return iter;
     }
     
 private:
-    std::list<TEle> _list;
+    std::vector<TEle> _vector;
     ns_thread::RWLock _rwlock;
 };
 
 template<typename TEle>
-class SafeListIterator : public ListIterator<TEle>
+class SafeVectorIterator : public Iterator<TEle>
 {
 public:
-    ~SafeListIterator() {}
+    ~SafeVectorIterator() {}
 
 private:
-    SafeListIterator() {}
-    friend class SafeList<TEle>;
+    SafeVectorIterator() {}
+    friend class SafeVector<TEle>;
 };
 
 }

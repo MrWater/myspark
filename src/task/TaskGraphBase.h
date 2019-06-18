@@ -8,16 +8,20 @@
 namespace ns_task
 {
 
-class TaskGraphBase : public IteratorBase<TaskBase*>
+template<typename TIterator>
+class TaskGraphBase : public Iterateable<TaskBase*, TIterator>
 {
+public:
+    typedef TIterator iterator;
+
 public:
     TaskGraphBase() {}
     virtual ~TaskGraphBase() {}
 
     virtual void addTask(TaskBase* task) = 0;
-    virtual bool hasNext() const = 0;
-    virtual TaskBase* next() = 0;
     virtual size_t size() const = 0;
+    virtual TIterator begin() = 0;
+    virtual TIterator end() = 0;
 };
 
 }

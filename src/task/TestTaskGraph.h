@@ -9,16 +9,31 @@
 namespace ns_task
 {
 
-class TestTaskGraph : public TaskGraphBase
+class TestTaskGraph;
+
+class TestTaskGraphIterator: public Iterator<TaskBase*>
+{
+public:
+    ~TestTaskGraphIterator() {}
+
+private:
+    TestTaskGraphIterator() {}
+    friend class TestTaskGraph;
+};
+
+class TestTaskGraph : public TaskGraphBase<TestTaskGraphIterator>
 {
 public:
     TestTaskGraph() {}
     ~TestTaskGraph() {}
 
     virtual void addTask(TaskBase* task) { _allTask.push_back(task); }
-    virtual bool hasNext() const { return _iterOffset < _allTask.size(); }
     virtual size_t size() const { return _allTask.size(); }
-    virtual TaskBase* next() { return _allTask[_iterOffset++]; } 
+
+    virtual TestTaskGraphIterator begin()
+    {
+        TestTaskGraphIterator
+    }
 
 private:
     std::vector<TaskBase*> _allTask;

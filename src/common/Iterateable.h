@@ -9,11 +9,14 @@ template<typename TEle, typename TIterator>
 class Iterateable
 {
 public:
+    typedef TIterator iterator;
+
+public:
     Iterateable() {}
     ~Iterateable() {}
 
     virtual TIterator begin() = 0;
-    virtual const TIterator end() = 0;
+    virtual TIterator end() = 0;
 };
 
 #endif

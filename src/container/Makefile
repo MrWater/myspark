@@ -1,6 +1,6 @@
 include ../../config.mk 
 
-EXE=test_safelist
+EXE=test_safelist test_safevector
 OBJ=
 INC=../
 LIB=-lpthread
@@ -14,6 +14,9 @@ all: $(EXE)
 	@echo "finish"
 
 test_safelist: test_safelist.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+test_safevector: test_safevector.cpp $(OBJ)
 	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
 
 %.o: %.cpp

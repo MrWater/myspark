@@ -2,11 +2,8 @@
 #define __LIST_ITERATOR_H__
 
 
-#include "common/Iterator.h"
+#include "Iterator.h"
 
-
-namespace ns_container
-{
 
 template<typename TEle>
 class ListIterator : public Iterator<TEle>
@@ -23,7 +20,5 @@ protected:
 protected:
     typename std::list<TEle>::iterator _iter;
 };
-
-}
 
 #endif
