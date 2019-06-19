@@ -19,5 +19,6 @@ install:
 clean:
 	rm -f $(OBJ)
 	rm -f $(EXE)
+	rm -f tags
 	@$(call cleanbin)
 

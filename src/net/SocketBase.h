@@ -2,15 +2,16 @@
 #define __SOCKET_BASE_H__
 
 
-#include<sys/types.h>
-#include<sys/socket.h>
-#include<netinet/in.h>
-#include<arpa/inet.h>
-#include<unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
 #include <netinet/tcp.h>
 #include <stdint.h>
 #include <string>
 #include <memory.h>
+#include <fcntl.h>
 
 
 namespace ns_net
@@ -64,6 +65,29 @@ public:
         {
             ::close(_socket);
             _socket = -1;
+        }
+    }
+
+    void setNoBlock()
+    {
+        int flags = fcntl(_socket, F_GETFL, 0); 
+        if (flags == -1) 
+        { 
+            _lastErr = -1;
+            // TODO: throw SocketException
+        } 
+        
+        if (flags & O_NONBLOCK) 
+        { 
+            _lastErr = 0;
+            return; 
+        } 
+        
+        flags |= O_NONBLOCK; 
+        if (fcntl(_socket, F_SETFL, flags) == -1) 
+        {
+            _lastErr = -1;
+            // TODO: throw
         }
     }
 

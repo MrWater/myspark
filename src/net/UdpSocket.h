@@ -58,7 +58,7 @@ public:
     }
 
 protected:
-    UdpSocket(DomainType domain)
+    UdpSocket(DomainType domain=AF_INET)
         : SocketBase(domain, SOCK_DGRAM, IPPROTO_UDP)
     {
     }

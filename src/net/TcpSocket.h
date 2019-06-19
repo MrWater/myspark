@@ -28,7 +28,7 @@ public:
     }
 
 protected:
-    TcpSocket(DomainType domain)
+    TcpSocket(DomainType domain=AF_INET)
         : SocketBase(domain, SOCK_STREAM, IPPROTO_TCP)
     {
     }

@@ -11,7 +11,7 @@ namespace ns_net
 class ListenSocket : public TcpSocket
 {
 public:
-    ListenSocket(DomainType domain)
+    ListenSocket(DomainType domain=AF_INET)
         : TcpSocket(domain)
     {
     }

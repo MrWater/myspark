@@ -11,7 +11,7 @@ namespace ns_net
 class ConnectSocket : public TcpSocket
 {
 public:
-    ConnectSocket(DomainType domain)
+    ConnectSocket(DomainType domain=AF_INET)
         : TcpSocket(domain)
     {
     }

@@ -1,7 +1,13 @@
-EXE+=
+EXE+= test_connectsocket test_listensocket
 
 all: $(EXE)
 	@$(call mvbin, $(EXE))
 	@echo finish
+
+test_connectsocket: test_connectsocket.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+test_listensocket: test_listensocket.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
 
 

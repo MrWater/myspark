@@ -11,7 +11,7 @@ namespace ns_net
 class PeerSocket final : public UdpSocket
 {
 public:
-    PeerSocket(DomainType domain)
+    PeerSocket(DomainType domain=AF_INET)
         : UdpSocket(domain)
     {
     }
