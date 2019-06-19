@@ -10,13 +10,14 @@ class Iterateable
 {
 public:
     typedef TIterator iterator;
-
-public:
-    Iterateable() {}
-    ~Iterateable() {}
+    
+    virtual ~Iterateable() {}
 
     virtual TIterator begin() = 0;
     virtual TIterator end() = 0;
+
+protected:
+    Iterateable() {}
 };
 
 #endif

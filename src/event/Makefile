@@ -1,6 +1,6 @@
 include ../../config.mk 
 
-EXE=test_ps
+EXE=
 OBJ=
 INC=../
 LIB=
@@ -9,15 +9,7 @@ CFLAGS+=-lpthread
 
 .PHONY: clean install all
 
-all: $(EXE)
-	@$(call mvbin, $(EXE))
-	@echo "finish"
-
-test_ps: test_ps.cpp $(OBJ)
-	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
-
-%.o: %.cpp
-	$(CXX) -c $^ -I$(INC) $(LIB) $(CFLAGS)
+include ./Makefile4test
 
 install:
 	echo "test install"
@@ -25,4 +17,5 @@ install:
 clean:
 	rm -f $(OBJ)
 	rm -f $(EXE)
+	rm -f tags
 	@$(call cleanbin)

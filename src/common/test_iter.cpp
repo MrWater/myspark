@@ -46,19 +46,6 @@ public:
     vector<int> a;
 };
 
-template<typename T>
-class SafeListIterator : public Iterator<T>
-{
-public:
-    SafeListIterator() {}
-    ~SafeListIterator() {}
-
-    virtual void next() { ++_iter; _current = &(*_iter); }
-    virtual void prev() { --_iter; _current = &(*_iter); }
-
-private:
-    typename std::list<T>::iterator _iter;
-};
 
 int main()
 {

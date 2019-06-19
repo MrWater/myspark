@@ -8,15 +8,7 @@ LIB=
 
 .PHONY: clean install all
 
-all: $(EXE) $(ALLTEST)
-	@$(call mvbin, $(EXE))
-	@echo "finish"
-
-test_localfileio: test_localfileio.cpp $(OBJ)
-	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
-
-test_data: test_data.cpp $(OBJ)
-	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+include ./Makefile4test
 
 %.o: %.cpp
 	$(CXX) -c $^ -I$(INC) $(LIB) $(CFLAGS)
@@ -27,4 +19,5 @@ install:
 clean:
 	rm -f $(OBJ)
 	rm -f $(EXE)
+	rm -f tags
 	@$(call cleanbin)

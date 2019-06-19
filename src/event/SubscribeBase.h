@@ -9,9 +9,11 @@ class SubscribeBase
 {
 public:
     SubscribeBase() {}
-    virtual ~SubscribeBase() {}
 
     virtual void respond() = 0;
+    
+protected:
+    virtual ~SubscribeBase() {}
 };
 
 }

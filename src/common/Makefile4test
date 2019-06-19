@@ -1,0 +1,16 @@
+EXE+= test_iter test_sys test_uuid
+
+all: $(EXE)
+	@$(call mvbin, $(EXE))
+	@echo finish
+
+test_iter: test_iter.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+test_sys: test_sys.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+test_uuid: test_uuid.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+

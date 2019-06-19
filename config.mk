@@ -1,5 +1,5 @@
 CXX=g++
-CFLAGS=--std=c++11
+CFLAGS=--std=c++11 -g -Wall
 BINDIR=bin
 
 define mvbin

@@ -8,8 +8,10 @@ namespace ns_io
 class DataRowBase
 {
 public:
-    DataRowBase() {}
     virtual ~DataRowBase() {}
+
+protected:
+    DataRowBase() {}
 };
 
 }

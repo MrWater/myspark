@@ -1,0 +1,13 @@
+EXE+= test_data test_localfileio
+
+all: $(EXE)
+	@$(call mvbin, $(EXE))
+	@echo finish
+
+test_data: test_data.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+test_localfileio: test_localfileio.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+

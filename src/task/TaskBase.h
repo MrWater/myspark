@@ -17,12 +17,6 @@ namespace ns_task
 class TaskBase
 {
 public:
-    TaskBase() 
-        : _status(TaskStatus::READY), 
-        _id(UUID()),
-        _reply(NULL)
-    {
-    }
     virtual ~TaskBase() {}
 
     TaskStatus status() { return _status; }
@@ -67,6 +61,14 @@ public:
 public:
     virtual TaskStatus run() = 0;
     virtual void notify() {}
+
+protected:
+    TaskBase() 
+        : _status(TaskStatus::READY), 
+        _id(UUID()),
+        _reply(NULL)
+    {
+    }
 
 protected:
     TaskStatus _status;

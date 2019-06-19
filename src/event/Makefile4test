@@ -1,0 +1,10 @@
+EXE+= test_ps
+
+all: $(EXE)
+	@$(call mvbin, $(EXE))
+	@echo finish
+
+test_ps: test_ps.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+

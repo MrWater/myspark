@@ -1,0 +1,10 @@
+EXE+= test_task
+
+all: $(EXE)
+	@$(call mvbin, $(EXE))
+	@echo finish
+
+test_task: test_task.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+

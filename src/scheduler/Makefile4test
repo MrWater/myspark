@@ -1,0 +1,10 @@
+EXE+= test_scheduler
+
+all: $(EXE)
+	@$(call mvbin, $(EXE))
+	@echo finish
+
+test_scheduler: test_scheduler.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+

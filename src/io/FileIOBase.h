@@ -28,13 +28,6 @@ enum class FileIOTypes : unsigned char
 class FileIOBase : public IIO
 {
 public:
-    FileIOBase(const char* filepath, size_t blockSize) 
-        : _offset(0),
-        _blockSize(blockSize),
-        _ioType(FileIOTypes::READ) 
-    {
-        memcpy(_filepath, filepath, strlen(filepath)+1);
-    }
     virtual ~FileIOBase() {}
 
     virtual bool open(FileIOTypes type=FileIOTypes::READ) throw(ns_exception::IOException) = 0;
@@ -44,6 +37,15 @@ public:
     
     virtual void seek(size_t offset) { _offset = offset; }
     virtual const char* path() const { return _filepath; }
+
+protected:
+    FileIOBase(const char* filepath, size_t blockSize) 
+        : _offset(0),
+        _blockSize(blockSize),
+        _ioType(FileIOTypes::READ) 
+    {
+        memcpy(_filepath, filepath, strlen(filepath)+1);
+    }
 
 protected:
     size_t _offset;

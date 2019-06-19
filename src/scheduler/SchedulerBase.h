@@ -11,12 +11,13 @@ namespace ns_scheduler
 class SchedulerBase
 {
 public:
-    SchedulerBase() {}
-    virtual ~SchedulerBase() {}
-
     virtual void receive(ns_task::TaskGraphBase* graph) = 0;
     virtual void schedule() = 0;
     virtual void watch() {}
+
+protected:
+    SchedulerBase() {}
+    virtual ~SchedulerBase() {}
 };
 
 }

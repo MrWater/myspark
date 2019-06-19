@@ -1,0 +1,7 @@
+EXE+=
+
+all: $(EXE)
+	@$(call mvbin, $(EXE))
+	@echo finish
+
+

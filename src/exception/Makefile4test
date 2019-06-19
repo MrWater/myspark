@@ -1,0 +1,10 @@
+EXE+= test_exception
+
+all: $(EXE)
+	@$(call mvbin, $(EXE))
+	@echo finish
+
+test_exception: test_exception.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+

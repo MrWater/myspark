@@ -3,8 +3,7 @@ include ../../config.mk
 EXE=
 OBJ=
 INC=../
-LIB=-lpthread
-CFLAGS+=
+LIB=
 
 
 .PHONY: clean install all
@@ -20,5 +19,5 @@ install:
 clean:
 	rm -f $(OBJ)
 	rm -f $(EXE)
-	rm -f tags
 	@$(call cleanbin)
+

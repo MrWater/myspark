@@ -2,18 +2,8 @@
 #define __ITERATOR_H__
 
 
-#include "IteratorBase.h"
-
-/**
- * brief 
- * 1.not to ensure multi-thread safety temporarily
- * 2.next may need return reference of ele
- * 3....
- *
- * param TEle
- */
 template<typename TEle>
-class Iterator //: public IteratorBase<TEle>
+class Iterator
 {
 public:
     virtual ~Iterator() {}

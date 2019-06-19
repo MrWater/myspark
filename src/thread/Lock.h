@@ -14,12 +14,14 @@ public:
     enum Types { MUTEX, READ, WRITE };
 
 public:
-    ILock() {}
     ~ILock() {}
 
     virtual void Lock(Types type) = 0;
     virtual void UnLock() = 0;
     virtual bool TryLock() = 0;
+
+protected:
+    ILock() {}
 };
 
 

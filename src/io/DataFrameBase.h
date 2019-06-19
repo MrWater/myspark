@@ -17,7 +17,6 @@ template<typename TEle, typename TIterator>
 class DataFrameBase : public Iterateable<TEle*, TIterator>
 {
 public:
-    DataFrameBase() {}
     virtual ~DataFrameBase() {}
 
     virtual void add(TEle*) = 0;
@@ -26,6 +25,9 @@ public:
     virtual size_t size() const = 0;
     virtual TIterator begin() = 0;
     virtual TIterator end() = 0;
+    
+protected:
+    DataFrameBase() {}
 };
 
 }
