@@ -7,17 +7,27 @@
 namespace ns_io
 {
 
-template<typename TEle>
-class TestDataFrameIterator;
+class TestDataFrame;
 
 template<typename TEle>
-class TestDataFrame : public DataFrameBase<TEle, TestDataFrameIterator<TEle*>>
+class TestDataFrameIterator : public Iterator<TEle>
+{
+public:
+    ~TestDataFrameIterator() {}
+
+private:
+    TestDataFrameIterator() {}
+    friend class TestDataFrame;
+};
+
+
+class TestDataFrame : public DataFrameBase<TestDataFrameIterator<DataRowBase*>>
 {
 public:
     TestDataFrame() {}
     virtual ~TestDataFrame() {}
 
-    virtual void add(TEle* row) { _data.push_back(row); } 
+    virtual void add(DataRowBase* row) { _data.push_back(row); } 
     virtual DataRowBase& at(size_t idx) throw(ns_exception::IOException)
     {
         if (idx < 0 || idx > size())
@@ -44,17 +54,6 @@ public:
 
 private:
     std::vector<DataRowBase*> _data;   
-};
-
-template<typename TEle>
-class TestDataFrameIterator : public Iterator<TEle>
-{
-public:
-    ~TestDataFrameIterator() {}
-
-private:
-    TestDataFrameIterator() {}
-    friend class TestDataFrame;
 };
 
 }

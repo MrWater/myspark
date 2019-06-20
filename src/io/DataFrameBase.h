@@ -13,14 +13,14 @@
 namespace ns_io
 {
 
-template<typename TEle, typename TIterator>
-class DataFrameBase : public Iterateable<TEle*, TIterator>
+template<typename TIterator>
+class DataFrameBase : public Iterateable<DataRowBase*, TIterator>
 {
 public:
     virtual ~DataFrameBase() {}
 
-    virtual void add(TEle*) = 0;
-    virtual TEle& at(size_t idx) throw(ns_exception::IOException) = 0;
+    virtual void add(DataRowBase*) = 0;
+    virtual DataRowBase& at(size_t idx) throw(ns_exception::IOException) = 0;
 
     virtual size_t size() const = 0;
     virtual TIterator begin() = 0;

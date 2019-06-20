@@ -91,6 +91,8 @@ public:
         }
     }
 
+    // TODO: other function
+
 protected:
     SocketBase(DomainType domain, SockType type, ProtocolType protocol)
     {

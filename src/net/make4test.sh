@@ -1,0 +1,1 @@
+../../scripts/GenMakefile4test.sh
