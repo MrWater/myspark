@@ -57,7 +57,7 @@ public:
             assert(idx != std::string::npos);
 
             std::string key = all[i].substr(0, idx);
-            std::string value = all[i].substr(idx+1, all[i].size());
+            std::string value = all[i].substr(idx+1);
             _headers[key] = value;
         }
 
