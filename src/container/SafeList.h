@@ -7,7 +7,7 @@
 #include "thread/Lock.h"
 #include "thread/AutoLock.h"
 #include "common/Iterateable.h"
-#include "common/ListIterator.h"
+#include "common/NotSequenceIterator.h"
 
 
 namespace ns_container
@@ -102,7 +102,7 @@ private:
 };
 
 template<typename TEle>
-class SafeListIterator : public ListIterator<TEle>
+class SafeListIterator : public NotSequenceIterator<TEle, typename std::list<TEle>::iterator>
 {
 public:
     ~SafeListIterator() {}

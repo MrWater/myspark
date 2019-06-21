@@ -1,16 +1,19 @@
-EXE+= test_iter test_sys test_uuid
+TEST_EXE= test_strtok test_sys test_uuid test_xstring
 
-all: $(EXE)
-	@$(call mvbin, $(EXE))
+test: $(TEST_EXE)
+	@$(call mvbin, $(TEST_EXE))
 	@echo finish
 
-test_iter: test_iter.cpp $(OBJ)
+test_strtok: test_strtok.cpp $(OBJ)
 	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
 
 test_sys: test_sys.cpp $(OBJ)
 	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
 
 test_uuid: test_uuid.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+test_xstring: test_xstring.cpp $(OBJ)
 	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
 
 

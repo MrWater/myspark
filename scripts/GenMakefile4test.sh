@@ -1,8 +1,8 @@
 #!/bin/sh 
 
 
-exe="EXE+="
-target="all: \$(EXE)\n\t@\$(call mvbin, \$(EXE))\n\t@echo "finish"\n\n"
+exe="TEST_EXE="
+target="test: \$(TEST_EXE)\n\t@\$(call mvbin, \$(TEST_EXE))\n\t@echo "finish"\n\n"
 
 for file in `ls test_*.cpp`
 do

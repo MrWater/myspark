@@ -68,29 +68,21 @@ public:
         }
     }
 
-    void setNoBlock()
+    void setSockOpt(int opt)
     {
-        int flags = fcntl(_socket, F_GETFL, 0); 
-        if (flags == -1) 
-        { 
-            _lastErr = -1;
-            // TODO: throw SocketException
-        } 
-        
-        if (flags & O_NONBLOCK) 
-        { 
-            _lastErr = 0;
-            return; 
-        } 
-        
-        flags |= O_NONBLOCK; 
-        if (fcntl(_socket, F_SETFL, flags) == -1) 
+        int flag = 1;
+        if (setsockopt(_socket, SOL_SOCKET, opt, &flag, sizeof(flag)) == -1)
         {
             _lastErr = -1;
-            // TODO: throw
+            // TODO: throw exception + errno
         }
+
+        return;
     }
 
+    void setNoBlock() { setSockOpt(O_NONBLOCK); }
+    void setNoDelay() { setSockOpt(TCP_NODELAY); }
+    void setReuse() { setSockOpt(SO_REUSEADDR); }
     // TODO: other function
 
 protected:

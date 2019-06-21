@@ -9,7 +9,9 @@ CFLAGS+=
 
 .PHONY: clean install all
 
-include ./Makefile4test
+all: $(EXE)
+	@$(call mvbin, $(EXE))
+	@echo finish
 
 %.o: %.cpp
 	$(CXX) -c $^ -I$(INC) $(LIB) $(CFLAGS)
@@ -20,5 +22,8 @@ install:
 clean:
 	rm -f $(OBJ)
 	rm -f $(EXE)
+	rm -f $(TEST_EXE)
 	rm -f tags
 	@$(call cleanbin)
+
+include ./Makefile4test

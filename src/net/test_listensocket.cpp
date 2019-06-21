@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ListenSocket.h"
+#include "HttpProtocol.h"
 
 using namespace std;
 using namespace ns_net;
@@ -11,6 +12,13 @@ int main()
     if (socket.lastErr() == -1)
     {
         cout << "init error" << endl;
+        return 0;
+    }
+
+    socket.setReuse();
+    if (socket.lastErr() == -1)
+    {
+        cout << "set opt error " << endl;
         return 0;
     }
 
@@ -42,8 +50,12 @@ int main()
         return 0;
     }
     cout << buf << endl;
+    HttpProtocol protocol;
+    protocol.deserialize(buf);
+    cout << "=============" << endl;
+    cout << protocol.serialize() << endl;
 
-    socket.close();
+    //socket.close();
 
     return 0;
 }
