@@ -5,13 +5,12 @@
 #include <vector>
 #include <string>
 #include <string.h>
-#include <iostream>
 
 class XString final
 {
 public:
     static std::vector<std::string> split(const std::string& src, \
-            std::string sep)
+            char sep)
     {
         std::vector<std::string> ret;
         size_t pos1 = 0;
@@ -20,7 +19,7 @@ public:
         while (pos2 != std::string::npos)
         {
             ret.push_back(src.substr(pos1, pos2-pos1));
-            pos1 = pos2+1;
+            pos1 = pos2 + 1;
 
             if (pos1 >= src.length())
             {
@@ -44,5 +43,6 @@ private:
     XString() {}
     ~XString() {}
 };
+
 
 #endif

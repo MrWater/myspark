@@ -8,13 +8,12 @@ using namespace std;
 
 int main()
 {
-    string src = "#a#b###a##";
-    string sep = "#";
+    string src = "a\ta\t\tb\tc\t";
+    char sep = '\t';
 
     vector<string> ret = XString::split(src, sep);
     vector<string>::iterator iter = ret.begin();
 
-    cout << src << endl;
     for (; iter != ret.end(); ++iter)
         cout << "=" << *iter << "=" << endl;
 
