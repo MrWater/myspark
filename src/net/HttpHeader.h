@@ -54,6 +54,11 @@ public:
         return iter;
     }
 
+    void clear()
+    {
+        _data.clear();
+    }
+
 private:
     std::map<std::string, std::string> _data;
 };

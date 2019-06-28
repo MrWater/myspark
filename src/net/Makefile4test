@@ -1,8 +1,11 @@
-TEST_EXE= test_connectsocket test_heartbeat1 test_heartbeat2 test_httprequestprotocol test_listensocket
+TEST_EXE= test_aio test_connectsocket test_heartbeat1 test_heartbeat2 test_httprequestprotocol test_listensocket test_server
 
 test: $(TEST_EXE)
 	@$(call mvbin, $(TEST_EXE))
 	@echo finish
+
+test_aio: test_aio.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
 
 test_connectsocket: test_connectsocket.cpp $(OBJ)
 	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
@@ -17,6 +20,9 @@ test_httprequestprotocol: test_httprequestprotocol.cpp $(OBJ)
 	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
 
 test_listensocket: test_listensocket.cpp $(OBJ)
+	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
+
+test_server: test_server.cpp $(OBJ)
 	$(CXX) $^ -o $@ -I$(INC) $(LIB) $(CFLAGS)
 
 

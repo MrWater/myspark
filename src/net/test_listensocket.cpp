@@ -1,6 +1,6 @@
 #include <iostream>
 #include "ListenSocket.h"
-#include "HttpProtocol.h"
+#include "HttpRequestProtocol.h"
 
 using namespace std;
 using namespace ns_net;
@@ -15,7 +15,7 @@ int main()
         return 0;
     }
 
-    socket.setReuse();
+    socket.setReuseAddr();
     if (socket.lastErr() == -1)
     {
         cout << "set opt error " << endl;
@@ -50,7 +50,7 @@ int main()
         return 0;
     }
     cout << buf << endl;
-    HttpProtocol protocol;
+    HttpRequestProtocol protocol;
     protocol.deserialize(buf);
     cout << "=============" << endl;
     cout << protocol.serialize() << endl;

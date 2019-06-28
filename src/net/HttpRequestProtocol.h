@@ -47,10 +47,10 @@ public:
 
     virtual void deserialize(std::string src)
     {
-        std::vector<std::string> all = XString::split(src, "\n");
+        std::vector<std::string> all = XString::split(src, '\n');
         assert(all.size() > 2);
 
-        std::vector<std::string> firstLine = XString::split(all[0], " ");
+        std::vector<std::string> firstLine = XString::split(all[0], ' ');
         assert(firstLine.size() == 3);
 
         _method = firstLine[0];
@@ -64,7 +64,7 @@ public:
         if (idx != std::string::npos)
         {
             // TODO: optimize
-            std::vector<std::string> args = XString::split(_uri.substr(idx+1), "&");
+            std::vector<std::string> args = XString::split(_uri.substr(idx+1), '&');
             for (size_t i = 0; i < args.size(); ++i)
             {
                 idx = args[i].find_first_of("=");
@@ -87,6 +87,16 @@ public:
         }
 
         _data = all[all.size()-1];
+    }
+
+    virtual void clear()
+    {
+        _method = "";
+        _uri = "";
+        _ver = "";
+        _args.clear();
+        _headers.clear();
+        _data = "";
     }
 
 private:

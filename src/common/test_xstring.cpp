@@ -8,7 +8,7 @@ using namespace std;
 
 int main()
 {
-    string src = "a\ta\t\tb\tc\t";
+    string src = "";
     char sep = '\t';
 
     vector<string> ret = XString::split(src, sep);

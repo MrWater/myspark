@@ -13,6 +13,8 @@
 #include <memory.h>
 #include <fcntl.h>
 
+#include "SocketOption.h"
+
 
 namespace ns_net
 {
@@ -34,7 +36,7 @@ public:
     virtual ~SocketBase() { close(); }
      
     int lastErr() { return _lastErr; }
-    int fd() { return _socket; }
+    int get() { return _socket; }
 
     void bind(std::string ip, uint16_t port)
     {
@@ -68,21 +70,21 @@ public:
         }
     }
 
-    void setSockOpt(int opt)
+    void setNoBlock() 
     {
-        int flag = 1;
-        if (setsockopt(_socket, SOL_SOCKET, opt, &flag, sizeof(flag)) == -1)
-        {
+        if (!SocketOption::setNoBlock(_socket))
             _lastErr = -1;
-            // TODO: throw exception + errno
-        }
-
-        return;
     }
-
-    void setNoBlock() { setSockOpt(O_NONBLOCK); }
-    void setNoDelay() { setSockOpt(TCP_NODELAY); }
-    void setReuse() { setSockOpt(SO_REUSEADDR); }
+    void setNoDelay() 
+    {
+        if (!SocketOption::setNoDelay(_socket))
+            _lastErr = -1;
+    }
+    void setReuseAddr()
+    {
+        if (!SocketOption::setReuseAddr(_socket))
+            _lastErr = -1;
+    }
     // TODO: other function
 
 protected:

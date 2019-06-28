@@ -89,6 +89,15 @@ public:
         _data = all[all.size()-1];
     }
 
+    virtual void clear()
+    {
+        _ver = "";
+        _status = "";
+        _statusInfo = "";
+        _headers.clear();
+        _data = "";
+    }
+
 private:
     std::string _ver;
     uint16_t _status;

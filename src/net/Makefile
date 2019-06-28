@@ -1,19 +1,19 @@
 include ../../config.mk 
 
 EXE=
-OBJ=
+OBJ=Server.o
 INC=../
-LIB=
+LIB=-laio -lpthread
 
 
 .PHONY: clean install all
 
+%.o: %.cpp
+	$(CXX) -c $^ -I$(INC) $(LIB) $(CFLAGS)
+
 all: $(EXE)
 	@$(call mvbin, $(EXE))
 	@echo finish
-
-%.o: %.cpp
-	$(CXX) -c $^ -I$(INC) $(LIB) $(CFLAGS)
 
 install:
 	echo "test install"
