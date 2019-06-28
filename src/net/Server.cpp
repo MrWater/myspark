@@ -192,8 +192,12 @@ Server::addClient(int clientFd)
     ctx->_fd = clientFd;
     ref(ctx);
     cout << "block" << SocketOption::setNoBlock(clientFd);
-    cout << "delay" << SocketOption::setNoDelay(clientFd);
-    addReadEvent(ctx);    
+    //cout << "delay" << SocketOption::setNoDelay(clientFd);
+    
+    if (!addReadEvent(ctx))
+    {
+        closeClient();
+    }
 }
 
 void
@@ -216,10 +220,7 @@ Server::addReadEvent(ServerContext* ctx, bool modify)
 
 	if (!epollCtl(ctx, op, EPOLLIN|EPOLLERR|EPOLLHUP))
 	{
-		unref(ctx);
-		assert(ctx->_refTimes == 0);
-		ctx = NULL;
-
+        //TODO
         return false;
 	}
 
@@ -235,10 +236,6 @@ Server::addWriteEvent(ServerContext* ctx, bool modify)
 
 	if (!epollCtl(ctx, op, EPOLLOUT|EPOLLERR|EPOLLHUP))
 	{
-		unref(ctx);
-		assert(ctx->_refTimes == 0);
-		ctx = NULL;
-
         return false;
 	}
 
@@ -294,7 +291,15 @@ Server::deal()
 		ctx->_request = request;
 		ctx->_response = response;
 
-        addWriteEvent(ctx);		
+        if (!addWriteEvent(ctx))
+        {
+            closeClient(ctx);
+            ctx = NULL;
+        }
+        else
+        {
+            ref(ctx);
+        }
 	}
 }
 
@@ -341,6 +346,16 @@ bool
 Server::handleWriteEvent(ServerContext* ctx)
 {
     assert(ctx != NULL);
+
+    ssize_t wtbytes = safeWrite(ctx->_fd, ctx->_response);
+    if (wtbytes == -1)
+    {
+        // TODO
+        return false;
+    }
+
+    cout << "response: " << ctx->_response.size() << endl;
+    cout << "write:  : " << wtbytes << endl;
     
     // TODO: return
     if (!addReadEvent(ctx, true))
@@ -348,6 +363,8 @@ Server::handleWriteEvent(ServerContext* ctx)
         cout << 3 << endl;
         return false;
     }
+
+    ref(ctx);
 
     return true;
 }
