@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include "Server.h"
+#include "AIOServer.h"
 #include "SocketOption.h"
 
 #include <iostream>
@@ -8,13 +8,13 @@
 using namespace std;
 using namespace ns_net;
 
-Server::Server()
-	: ServerBase(),
+AIOServer::AIOServer()
+	: ServerBase(), 
     _workThreadsNum(10)
 {
 }
 
-Server::~Server()
+AIOServer::~AIOServer()
 {
 	unique_lock<mutex> lock(_mtxQueue);
 	while (!_needSolving.empty())
@@ -25,7 +25,7 @@ Server::~Server()
 }
 
 void
-Server::run()
+AIOServer::run()
 {
 	initServerSocket();
 	_epollFd = epoll_create(_MAX_EVENTS);
@@ -41,7 +41,7 @@ Server::run()
 
     for (size_t i = 0; i < _workThreadsNum; ++i)
     {
-        thread t(Server::threadFunc, this);
+        thread t(AIOServer::threadFunc, this);
         t.detach();
     }
 
@@ -49,14 +49,14 @@ Server::run()
 }
 
 void
-Server::threadFunc(Server* server)
+AIOServer::threadFunc(AIOServer* server)
 {
 	assert(server != NULL);
 	server->deal();
 }
 
 void
-Server::start()
+AIOServer::start()
 {
 	epoll_event events[_MAX_EVENTS];
 	int eventNum = 0;
@@ -96,7 +96,7 @@ Server::start()
 }
 
 void
-Server::initServerSocket()
+AIOServer::initServerSocket()
 {
 	_socket.setReuseAddr();
 	if (_socket.lastErr() == -1)
@@ -130,7 +130,7 @@ Server::initServerSocket()
 }
 
 ssize_t
-Server::safeRead(int fd, string& request)
+AIOServer::safeRead(int fd, string& request)
 {
 	char buf[_BLOCK_SIZE+1];
 	ostringstream oss;
@@ -149,7 +149,7 @@ Server::safeRead(int fd, string& request)
 }
 
 ssize_t
-Server::safeWrite(int fd, const string& response)
+AIOServer::safeWrite(int fd, const string& response)
 {
     size_t len = response.length();
     char buf[len];
@@ -165,7 +165,7 @@ Server::safeWrite(int fd, const string& response)
 }
 
 bool
-Server::epollCtl(ServerContext* ctx, int op, uint32_t events)
+AIOServer::epollCtl(ServerContext* ctx, int op, uint32_t events)
 {
 	assert(ctx != NULL);
 
@@ -182,7 +182,7 @@ Server::epollCtl(ServerContext* ctx, int op, uint32_t events)
 }
 
 void
-Server::addClient(int clientFd)
+AIOServer::addClient(int clientFd)
 {
     ServerContext* ctx = new ServerContext;
     ctx->_fd = clientFd;
@@ -197,7 +197,7 @@ Server::addClient(int clientFd)
 }
 
 void
-Server::closeClient(ServerContext* ctx)
+AIOServer::closeClient(ServerContext* ctx)
 {
 	assert(ctx != NULL);
 
@@ -208,7 +208,7 @@ Server::closeClient(ServerContext* ctx)
 	ctx = NULL;
 }
 bool 
-Server::addReadEvent(ServerContext* ctx, bool modify)
+AIOServer::addReadEvent(ServerContext* ctx, bool modify)
 {
 	assert(ctx != NULL);
 
@@ -224,7 +224,7 @@ Server::addReadEvent(ServerContext* ctx, bool modify)
 }
 
 bool
-Server::addWriteEvent(ServerContext* ctx, bool modify)
+AIOServer::addWriteEvent(ServerContext* ctx, bool modify)
 {
 	assert(ctx != NULL);	
     
@@ -239,7 +239,7 @@ Server::addWriteEvent(ServerContext* ctx, bool modify)
 }
 
 bool
-Server::delEvent(ServerContext* ctx)
+AIOServer::delEvent(ServerContext* ctx)
 {
     if (!epollCtl(ctx, EPOLL_CTL_DEL, 0))
     {
@@ -251,7 +251,7 @@ Server::delEvent(ServerContext* ctx)
 }
 
 void
-Server::deal()
+AIOServer::deal()
 {
 	while (true)
 	{
@@ -293,7 +293,7 @@ Server::deal()
 }
 
 void
-Server::handleEvent(epoll_event& event)
+AIOServer::handleEvent(epoll_event& event)
 {
 	ServerContext* ctx = reinterpret_cast<ServerContext*>(event.data.ptr);
 
@@ -315,7 +315,7 @@ Server::handleEvent(epoll_event& event)
 }
 
 bool
-Server::handleReadEvent(ServerContext* ctx)
+AIOServer::handleReadEvent(ServerContext* ctx)
 {
     // TODO: return
 	assert(ctx != NULL);
@@ -332,7 +332,7 @@ Server::handleReadEvent(ServerContext* ctx)
 }
 
 bool
-Server::handleWriteEvent(ServerContext* ctx)
+AIOServer::handleWriteEvent(ServerContext* ctx)
 {
     assert(ctx != NULL);
 
@@ -353,14 +353,14 @@ Server::handleWriteEvent(ServerContext* ctx)
 }
 
 void
-Server::ref(ServerContext* ctx)
+AIOServer::ref(ServerContext* ctx)
 {
 	assert(ctx != NULL);
 	ctx->_refTimes += 1;
 }
 
 void
-Server::unref(ServerContext* ctx)
+AIOServer::unref(ServerContext* ctx)
 {
 	assert(ctx != NULL);
 	ctx->_refTimes -= 1;
@@ -370,7 +370,7 @@ Server::unref(ServerContext* ctx)
 }
 
 void
-Server::addUnsolve(ServerContext* ctx)
+AIOServer::addUnsolve(ServerContext* ctx)
 {
 	assert(ctx != NULL);
 	ref(ctx);
@@ -381,9 +381,10 @@ Server::addUnsolve(ServerContext* ctx)
 }
 
 ServerContext*
-Server::fetchUnsolve()
+AIOServer::fetchUnsolve()
 {
 	unique_lock<mutex> lock(_mtxQueue);
+    cout << "size: " << _needSolving.size() << endl;
 
 	while (_needSolving.empty())
 	{

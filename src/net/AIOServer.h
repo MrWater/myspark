@@ -1,5 +1,5 @@
-#ifndef __SERVER_H__
-#define __SERVER_H__
+#ifndef __AIO_SERVER_H__
+#define __AIO_SERVER_H__
 
 
 #include <string>
@@ -19,11 +19,11 @@
 namespace ns_net
 {
 
-class Server : public ServerBase
+class AIOServer : public ServerBase
 {
 public:
-    Server();
-    virtual ~Server();
+    AIOServer();
+    virtual ~AIOServer();
 
     void run();
 
@@ -32,7 +32,7 @@ protected:
     virtual ssize_t safeWrite(int, const std::string&);
 
 private:
-    static void threadFunc(Server*);
+    static void threadFunc(AIOServer*);
 
     void start();
     void initServerSocket();

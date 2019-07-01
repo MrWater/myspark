@@ -1,7 +1,7 @@
 include ../../config.mk 
 
 EXE=
-OBJ=Server.o
+OBJ=Server.o AIOServer.o
 INC=../
 LIB=-laio -lpthread
 

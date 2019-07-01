@@ -2,7 +2,13 @@
 #define __TEST_SERVER_HANDLER_H__
 
 
+#include <fstream>
+#include <sstream>
+#include <iostream>
+
 #include "ServerHandlerBase.h"
+
+using namespace std;
 
 namespace ns_net
 {
@@ -19,7 +25,16 @@ public:
 
     virtual std::string handle(const std::string& request)
     {
-        return "test123122222222222222";
+        ifstream fs("test.txt");
+        ostringstream oss;
+        string line = "";
+
+        while (getline(fs, line))
+        {
+            oss << line << "\n";
+        }
+
+        return oss.str();
     }
 };
 

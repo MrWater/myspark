@@ -1,6 +1,6 @@
 include config.mk
 
-SUBDIRS = src/common src/container src/event src/exception src/task src/io src/scheduler src/thread src/net
+SUBDIRS = src/common src/container src/event src/exception src/task src/io src/scheduler src/thread src/net src/core
 
 all :
 	@$(do_sub_dirs) "" $(SUBDIRS)

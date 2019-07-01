@@ -4,12 +4,14 @@
 
 #include <string>
 
-#include "Server.h"
 #include "ProtocolBase.h"
 
 
 namespace ns_net
 {
+
+class Server;
+class AIOServer;
 
 class ServerContext
 {
@@ -52,6 +54,7 @@ private:
     ssize_t _writtenBytes;
     Mode _mode;
     friend class Server;
+    friend class AIOServer;
 };
 
 }
